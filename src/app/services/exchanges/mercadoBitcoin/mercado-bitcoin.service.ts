@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BaseApiService } from '../base-api.service';
-import { map,Observable } from 'rxjs';
-import { ApiCandleResponse, Candle } from '../../../models/mercadoBitcoinResponse';
+import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MercadoBitcoinAdapter } from '../adapters/mercado-bitcoin-adapter';
+import { StandardCandle } from '../../../models/standard-candle.model';
+import { MercadoBitcoinCandleResponse } from '../../../models/mercado-bitcoin-response.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class MercadoBitcoinService extends BaseApiService {
-
+export class MercadoBitcoinService {
   private baseUrl: string = 'https://api.mercadobitcoin.net/api/v4/candles';
-  
+  private adapter = new MercadoBitcoinAdapter();
 
-  constructor(http: HttpClient) { 
+  constructor(private http: HttpClient) { 
 
-    super(http);
   }
 
      /**
@@ -34,31 +34,13 @@ export class MercadoBitcoinService extends BaseApiService {
       to: number,
       countback?: number
 
-    ) : Observable<Candle[]> {
+    ) : Observable<StandardCandle[]> {
 
-      let params = new HttpParams()
-      .set('symbol', symbol)
-      .set('resolution', resolution)
-      .set('from', from.toString())
-      .set('to', to.toString());
+      const params = this.adapter.adaptParams(symbol,resolution, from, to, countback);
 
-      if(countback){
-
-        params = params.set('countback', countback.toString());
-      };
-
-      return this.http.get<ApiCandleResponse>(this.baseUrl, { params }).pipe(
-        map(data =>
-          data.t.map((timestamp, index) => ({
-            t: new Date(timestamp * 1000),  // Convertendo UNIX timestamp para `Date`
-            o: parseFloat(data.o[index]),  // Convertendo string para número
-            h: parseFloat(data.h[index]),
-            l: parseFloat(data.l[index]),
-            c: parseFloat(data.c[index]),
-            v: parseFloat(data.v[index]),
-          }))
-        )
-      );
+      return this.http.get<MercadoBitcoinCandleResponse>(this.baseUrl, { params }).pipe(
+        map(response => this.adapter.toStandard(response))
+      )
     }
   }
 

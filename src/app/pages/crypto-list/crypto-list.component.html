@@ -1,1 +1,77 @@
-<p>crypto-list works!</p>
+<div class="flex justify-center p-4 items-center min-h-screen bg-gray-900">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-white text-2xl font-semibold mb-4 text center"> Consulta de Criptomoedas</h2>
+  
+        <form class="space-y-4">
+          <div>
+            <label class="text-gray-300 block text-sm font-medium">Símbolo</label>
+            <select [(ngModel)] = "symbol" name="symbol"  placeholder="Ex: BTC-BRL"
+             class="w-full mt-1 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-1 focus:ring-green-500 outline-none">
+             <option *ngFor="let option of symbols" [value]="option">{{option}}</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-gray-300 block text-sm font-medium"> Resolução </label>
+            <select [(ngModel)]="resolution" name="resolution" placeholder="Ex: 1h"
+             class="w-full mt-1 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-1 focus:ring-green-500 outline-none" >
+            <option *ngFor="let option of resolutions" [value]="option">{{option}}</option>
+            </select>
+            </div>
+
+          <div>
+            <label class="text-gray-300 block text-sm font-medium"> 
+              Candles
+            </label>
+            <div class="flex items-center">
+            <input [(ngModel)]="countback" name="countback" placeholder="Insira a quantidade de candles" 
+              class="w-full mt-1 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-1 focus:ring-green-500 outline-none"/>
+
+              <div class="relative group ml-2">
+                <span class="cursor-pointer text-gray-400 hover:text-white"> ⓘ</span>
+                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md p-2 w-48 shadow-lg">
+                  Caso utilize esse campo de quantidade de candles, o campo De (Data) logo abaixo será ignorado.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-gray-300 block text-sm font-medium"> De (Data)</label>
+              <input [(ngModel)]="fromDate" name="fromDate" (ngModelChange)="updateTimestamp('from')" type="date"
+               class="w-full mt-1 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-1 focus:ring-green-500 outline-none" />
+            </div>
+
+            <div>
+              <label class="text-gray-300 block text-sm font-medium">Até (Data)</label>
+              <input [(ngModel)]="toDate" (ngModelChange)="updateTimestamp('to')" name="toDate" type="date"
+               class="w-full mt-1 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-1 focus:ring-green-500 outline-none" />
+            </div>
+          </div>
+
+          <button (click)="loadCryptoData()" type="button"
+            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition">
+            Buscar dados
+          </button>
+        </form>
+
+        <div class="mt-6 text-white text-center">
+          <p *ngIf="cryptoData$ | async as data; else loading">
+            {{data?.length}} resultados encontrados.
+          </p>
+          <ng-template #loading>
+            <p class="text-gray-400">Nenhuma consulta realizada.</p>
+          </ng-template>
+        </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- <div class="p-8 grid grid-cols-2 gap-4 w-[700px] h-[500px]">
+    <div *ngFor="let crypto of cryptoData$ | async">
+      <p>Fechamento: {{ crypto.c }} - Timestamp: {{ crypto.t.toISOString()  }} - Abertura: {{ crypto.o }}</p>
+    </div>
+  </div> -->
