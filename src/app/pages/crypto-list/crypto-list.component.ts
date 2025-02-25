@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CryptoDataService } from '../../services/exchanges/crypto-data.service';
-import { StandardCandle } from '../../models/standard-candle.model';
+import { StandardCandle } from '../../models/standard-candle-response.model';
+import { StandardSymbol } from '../../models/standard-symbol-response.model';
 
 @Component({
   selector: 'app-crypto-list',
@@ -14,6 +15,8 @@ import { StandardCandle } from '../../models/standard-candle.model';
 export class CryptoListComponent {
 
   cryptoData$: Observable<StandardCandle[]> | undefined;
+
+  symbolData$: Observable<StandardSymbol[]> | undefined;
 
   cryptoDataService = inject(CryptoDataService); // ✅ Injeção usando `inject()`
 
@@ -36,6 +39,7 @@ export class CryptoListComponent {
 
   ngOnInit() {
     this.loadCryptoData();
+    this.loadSymbolData();
   }
 
   private getMidnightTimestampUTC(daysAgo: number = 0): number {
@@ -94,6 +98,12 @@ export class CryptoListComponent {
     this.from,
     this.to,
     this.countback
+    );
+  }
+
+  loadSymbolData() {
+    this.symbolData$ = this.cryptoDataService.getSymbols(
+    this.exchange
     );
   }
 }

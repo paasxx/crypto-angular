@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BinanceAdapter } from '../adapters/binance-adapter';
-import { StandardCandle } from '../../../models/standard-candle.model';
-import { BinanceCandleResponse } from '../../../models/binance-response.model';
+import { StandardCandle } from '../../../models/standard-candle-response.model';
+import { BinanceCandleResponse } from '../../../models/binance/binance-response.model';
 
 @Injectable({
   providedIn: 'root'

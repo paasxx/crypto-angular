@@ -1,8 +1,9 @@
 import { BinanceService } from './binance/binance.service';
 import { Injectable } from '@angular/core';
 import { MercadoBitcoinService } from './mercadoBitcoin/mercado-bitcoin.service';
-import { StandardCandle } from '../../models/standard-candle.model';
+import { StandardCandle } from '../../models/standard-candle-response.model';
 import { Observable } from 'rxjs';
+import { StandardSymbol } from '../../models/standard-symbol-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,18 @@ export class CryptoDataService {
         throw new Error('Exchange não suportada');
     }
    }
-}
+
+   getSymbols(exchange: string):Observable<StandardSymbol[]>{
+
+    switch (exchange){
+      case 'mercadoBitcoin':
+        return this.mercadoBitcoinService.getSymbolsList();
+      case 'binance':
+        return this.mercadoBitcoinService.getSymbolsList();
+        // return this.binanceService.getSymbolsList(); *** CORRETO ****
+      default:
+        throw new Error('Exchange não suportada');
+    }
+
+   };
+  }

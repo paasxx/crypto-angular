@@ -1,4 +1,4 @@
-<div class="flex justify-center p-4 items-center min-h-screen bg-gray-900">
+<div class="home">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-white text-2xl font-semibold mb-4 text center"> Consulta de Criptomoedas</h2>
   
@@ -70,8 +70,14 @@
 
 
 
-  <!-- <div class="p-8 grid grid-cols-2 gap-4 w-[700px] h-[500px]">
+  <div class="p-8 grid grid-cols-2 gap-4 w-[700px] h-[500px]">
     <div *ngFor="let crypto of cryptoData$ | async">
-      <p>Fechamento: {{ crypto.c }} - Timestamp: {{ crypto.t.toISOString()  }} - Abertura: {{ crypto.o }}</p>
+      <p>Fechamento: {{ crypto.close }} - Timestamp: {{ crypto.timestamp.toISOString()  }} - Abertura: {{ crypto.open }}</p>
     </div>
-  </div> -->
+  </div>
+
+  <div class="p-8 grid grid-cols-2 gap-4 w-[700px] h-[500px]">
+    <div *ngFor="let crypto of symbolData$ | async">
+      <p>Fechamento: {{ crypto.baseCurrency }} - Timestamp: {{ crypto.type }} - Abertura: {{ crypto.symbol }}</p>
+    </div>
+  </div>

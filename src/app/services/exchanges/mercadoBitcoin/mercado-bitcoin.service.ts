@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { MercadoBitcoinAdapter } from '../adapters/mercado-bitcoin-adapter';
-import { StandardCandle } from '../../../models/standard-candle.model';
-import { MercadoBitcoinCandleResponse } from '../../../models/mercado-bitcoin-response.model';
+import { MercadoBitcoinCandleAdapter} from '../adapters/mercado-bitcoin-candle-adapter';
+import { MercadoBitcoinSymbolAdapter } from '../adapters/mercado-bitcoin-symbol-adapter';
+import { StandardCandle } from '../../../models/standard-candle-response.model';
+import { MercadoBitcoinCandleResponse } from '../../../models/mercado-bitcoin/mercado-bitcoin-candles-response.model';
+import { StandardSymbol } from '../../../models/standard-symbol-response.model';
+import { MercadoBitcoinSymbolsResponse } from '../../../models/mercado-bitcoin/mercado-bitcoin-symbols-response.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MercadoBitcoinService {
-  private baseUrl: string = 'https://api.mercadobitcoin.net/api/v4/candles';
-  private adapter = new MercadoBitcoinAdapter();
+  private candlesUrl: string = 'https://api.mercadobitcoin.net/api/v4/candles';
+  private symbolsUrl = 'https://api.mercadobitcoin.net/api/v4/symbols';
+  private candleAdapter = new MercadoBitcoinCandleAdapter();
+  private symbolAdapter = new MercadoBitcoinSymbolAdapter();
+
 
   constructor(private http: HttpClient) { 
 
@@ -36,11 +42,21 @@ export class MercadoBitcoinService {
 
     ) : Observable<StandardCandle[]> {
 
-      const params = this.adapter.adaptParams(symbol,resolution, from, to, countback);
+      const params = this.candleAdapter.adaptParams(symbol,resolution, from, to, countback);
 
-      return this.http.get<MercadoBitcoinCandleResponse>(this.baseUrl, { params }).pipe(
-        map(response => this.adapter.toStandard(response))
+      return this.http.get<MercadoBitcoinCandleResponse>(this.candlesUrl, { params }).pipe(
+        map(response => this.candleAdapter.toStandard(response))
       )
     }
+
+    getSymbolsList(): Observable<StandardSymbol[]>{
+
+      const params = {};
+
+      return this.http.get<MercadoBitcoinSymbolsResponse>(this.symbolsUrl, { params }).pipe(
+        map(response => this.symbolAdapter.toStandard(response))
+      )
+
+    };
   }
 

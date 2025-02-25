@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { StandardCandle } from '../../../models/standard-candle.model';
-import { ExchangeAdapter } from './exchange-adapter.interface';
-import { BinanceCandleResponse } from '../../../models/binance-response.model';
+import { StandardCandle } from '../../../models/standard-candle-response.model';
+import { ExchangeCandleAdapter } from './exchange-adapter-candle.interface';
+import { BinanceCandleResponse } from '../../../models/binance/binance-response.model';
 
-export class BinanceAdapter implements ExchangeAdapter<BinanceCandleResponse> {
+export class BinanceAdapter implements ExchangeCandleAdapter<BinanceCandleResponse> {
 
   // Adapta parâmetros gen´ricos para o formato da Binance
   adaptParams(

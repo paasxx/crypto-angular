@@ -1,9 +1,11 @@
-import { StandardCandle } from "../../../models/standard-candle.model";
-import { MercadoBitcoinCandleResponse } from "../../../models/mercado-bitcoin-response.model";
-import { ExchangeAdapter } from "./exchange-adapter.interface";
+import { StandardCandle } from "../../../models/standard-candle-response.model";
+import { MercadoBitcoinCandleResponse } from "../../../models/mercado-bitcoin/mercado-bitcoin-candles-response.model"; 
+import { ExchangeCandleAdapter } from "./exchange-adapter-candle.interface";
 import { HttpParams } from "@angular/common/http";
+import { StandardSymbol } from "../../../models/standard-symbol-response.model";
+import { MercadoBitcoinSymbolsResponse } from "../../../models/mercado-bitcoin/mercado-bitcoin-symbols-response.model";
 
-export class MercadoBitcoinAdapter implements ExchangeAdapter<MercadoBitcoinCandleResponse> {
+export class MercadoBitcoinCandleAdapter implements ExchangeCandleAdapter<MercadoBitcoinCandleResponse> {
 
     //Converte os parâmetros padrão para o formato do Mercado Bitcoin
     adaptParams(
