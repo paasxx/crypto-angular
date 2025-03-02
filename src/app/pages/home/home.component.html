@@ -1,0 +1,7 @@
+<div class=block>
+    @for (crypto of symbolData$ | async; track crypto.symbol) {
+        <app-card-crypto [crypto] = "crypto"/>
+    }
+</div>
+
+   

@@ -1,0 +1,37 @@
+.card{
+    background-color: rgb(71, 71, 71);
+    padding: 1.5rem;
+    border: 1px solid black;
+    width: 180px;
+    height: 200px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adiciona animação */
+
+}
+
+.card:hover {
+    transform: scale(1.05); /* Aumenta 5% do tamanho original */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4); /* Deixa a sombra um pouco mais forte */
+}
+
+.description{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    color: rgb(255, 255, 255);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /* Impede que o texto ultrapasse os limites */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    max-width: 100%; /* Garante que o texto não vaze */
+}
+
